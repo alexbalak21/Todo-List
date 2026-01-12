@@ -1,39 +1,65 @@
-export default class Connection {
-  URL = "http://localhost:3000/"
+// Requests.js - LocalStorage implementation
+class Connection {
+    constructor() {
+        this.STORAGE_KEY = 'todoTasks';
+    }
 
-  async getAll() {
-    let res = await fetch(this.URL)
-    let data = await res.json()
-    return data
-  }
+    // Get all tasks
+    async getAll() {
+        try {
+            const tasks = JSON.parse(localStorage.getItem(this.STORAGE_KEY) || '[]');
+            return Array.isArray(tasks) ? tasks : [];
+        } catch (error) {
+            console.error('Error getting tasks:', error);
+            return [];
+        }
+    }
 
-  async addOne(text) {
-    let res = await fetch(this.URL + "new", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: `{"title":"${text}"}`,
-    })
-    if (res.status !== 201) return await res.json()
-    return null
-  }
+    // Add a new task
+    async addOne(taskText) {
+        try {
+            const tasks = await this.getAll();
+            const newTask = {
+                id: `task-${Date.now()}`,
+                title: taskText,
+                done: false
+            };
+            tasks.push(newTask);
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(tasks));
+            return newTask;
+        } catch (error) {
+            console.error('Error adding task:', error);
+            throw error;
+        }
+    }
 
-  async deleteOne(id) {
-    let url = this.URL + "delete/" + id
-    let res = await fetch(url, { method: "DELETE" })
-    return await res.json()
-  }
+    // Toggle task completion
+    async update(taskId) {
+        try {
+            const tasks = await this.getAll();
+            const updatedTasks = tasks.map(task => 
+                task.id === taskId ? { ...task, done: !task.done } : task
+            );
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updatedTasks));
+            return updatedTasks.find(task => task.id === taskId);
+        } catch (error) {
+            console.error('Error updating task:', error);
+            throw error;
+        }
+    }
 
-  async update(id) {
-    let url = this.URL + "update/" + id
-    let res = await fetch(url, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: `{"id":"${id}, "title":"${text}", "done":"true"}`,
-    })
-    return await res.json()
-  }
+    // Delete a task
+    async deleteOne(taskId) {
+        try {
+            const tasks = await this.getAll();
+            const updatedTasks = tasks.filter(task => task.id !== taskId);
+            localStorage.setItem(this.STORAGE_KEY, JSON.stringify(updatedTasks));
+            return taskId;
+        } catch (error) {
+            console.error('Error deleting task:', error);
+            throw error;
+        }
+    }
 }
+
+export default Connection;
