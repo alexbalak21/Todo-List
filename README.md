@@ -1,4 +1,4 @@
-# ToDo List Application
+# ✅ ToDo List Application
 
 A simple, clean, and efficient ToDo List application built with vanilla JavaScript, HTML, and CSS. The application allows you to add, complete, and delete tasks, with all data persisted in the browser's localStorage.
 
