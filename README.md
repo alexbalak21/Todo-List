@@ -1,6 +1,6 @@
 # ✅ ToDo List Application
 
-🔗 [Live Demo](https://alexbalak21.github.io/Todo-List/)
+🔗 [Page](https://alexbalak21.github.io/Todo-List/)
 
 A simple, clean, and efficient ToDo List application built with vanilla JavaScript, HTML, and CSS. The application allows you to add, complete, and delete tasks, with all data persisted in the browser's localStorage.
 
