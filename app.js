@@ -70,6 +70,7 @@ async function addTodo(event) {
 
 //FILTER BY done or UNdone
 function filterTodo(e) {
+  console.log(e.target.value)
   const todos = document.querySelectorAll(".todo")
   todos.forEach((todo) => {
     if (filter.value == "all") todo.style.display = "flex"
@@ -77,7 +78,7 @@ function filterTodo(e) {
       if (todo.classList.contains("done")) todo.style.display = "flex"
       else todo.style.display = "none"
     }
-    if (filter.value == "undone") {
+    if (filter.value == "uncompleted") {
       if (todo.classList.contains("done")) todo.style.display = "none"
       else todo.style.display = "flex"
     }
